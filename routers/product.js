@@ -32,6 +32,13 @@ router.get("/", async (req, res) => {
   res.send(productList);
 });
 
+// get products by id
+router.get("/:id", async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) return res.status(500).json({ message: "Internal Error" });
+  res.send(product);
+});
+
 // post products
 router.post("/", upload.single("image"), async (req, res) => {
   const file = req.file;
