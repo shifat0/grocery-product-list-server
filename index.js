@@ -9,6 +9,7 @@ const productRouter = require("./routers/product");
 app.use(express.json());
 
 app.use(`${api}/${process.env.PRODUCT_API_URL}`, productRouter);
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 // Database Connection
 mongoose
