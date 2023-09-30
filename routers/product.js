@@ -58,4 +58,42 @@ router.post("/", upload.single("image"), async (req, res) => {
   res.send(product);
 });
 
+// update product
+router.put("/:id", upload.single("image"), async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) return res.status(500).json({ message: "Internal Error!" });
+
+  const file = req.file;
+  let imagePath;
+  if (file) {
+    const filename = file.filename;
+    const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
+    imagePath = `${basePath}${filename}`;
+  } else imagePath = product.image;
+
+  const updatedProduct = await Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      description: req.body.description,
+      image: imagePath,
+      brand: req.body.brand,
+      price: req.body.price,
+    },
+    { new: true }
+  );
+
+  if (!updatedProduct)
+    return res.status(500).json({ message: "product can not be updated" });
+  res.send(updatedProduct);
+});
+
+// delete products
+router.delete("/:id", async (req, res) => {
+  const deletedProduct = await Product.findByIdAndRemove(req.params.id);
+  if (!deletedProduct)
+    return res.status(500).json({ message: "Product can not be deleted" });
+  res.json({ message: "Product deleted Successfully" });
+});
+
 module.exports = router;
