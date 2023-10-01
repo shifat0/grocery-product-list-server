@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv/config");
 
 const api = process.env.API_URL;
 const productRouter = require("./routers/product");
 
 app.use(express.json());
+app.use(cors());
 
 app.use(`${api}/${process.env.PRODUCT_API_URL}`, productRouter);
 app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
