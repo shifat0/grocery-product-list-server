@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
 const { Product } = require("../models/product");
 const multer = require("multer");
@@ -8,7 +7,7 @@ const multer = require("multer");
 const FILE_TYPE_MAP = {
   "image/png": "png",
   "image/jpeg": "jpeg",
-  "imag/jpg": "jpg",
+  "image/jpg": "jpg",
 };
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
